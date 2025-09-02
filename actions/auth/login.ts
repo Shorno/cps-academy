@@ -1,13 +1,26 @@
 import {loginEndpoint} from "@/utils/endpoints";
 import {LoginFormValues} from "@/zod/auth-schema";
+import {setAuthCookie} from "@/utils/setAuthCookie";
 
+export interface User {
+    id: number;
+    documentId: string;
+    username: string;
+    email: string;
+    provider: string;
+    confirmed: boolean;
+    blocked: boolean;
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
+}
 interface SuccessResponse {
     statusCode: number;
     message: string;
     success: true;
     data: {
         jwt: string;
-        user: any;
+        user: User;
     };
 }
 
@@ -45,6 +58,19 @@ export async function login(data: LoginFormValues): Promise<Response> {
                 success: false
             };
         }
+
+
+        const {jwt} = responseData;
+
+        if (!jwt) {
+            return {
+                statusCode: 500,
+                message: "Login failed. No token received.",
+                success: false
+            };
+        }
+
+        await setAuthCookie(jwt)
 
         return {
             statusCode: 200,
