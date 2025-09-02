@@ -17,6 +17,7 @@ import Link from "next/link"
 import {useState} from "react"
 import {usePathname} from "next/navigation";
 import {ModeToggle} from "@/components/mode-toggle";
+import {UserProfile} from "@/components/UserProfile";
 
 const navigationLinks = [
     {href: "/courses", label: "Courses"},
@@ -26,6 +27,8 @@ const navigationLinks = [
 export default function Navbar() {
     const [open, setOpen] = useState(false)
     const pathname = usePathname()
+
+
 
     return (
         <header className="border-b px-4 md:px-6">
@@ -128,12 +131,7 @@ export default function Navbar() {
                     <div className={"hidden md:block"}>
                         <ModeToggle/>
                     </div>
-                    <Button asChild variant="ghost" size="sm" className="text-sm">
-                        <Link href="/login">Sign In</Link>
-                    </Button>
-                    <Button asChild size="sm" className="text-sm">
-                        <Link href="/sign-up">Get Started</Link>
-                    </Button>
+                   <UserProfile/>
                 </div>
             </div>
         </header>

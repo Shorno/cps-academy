@@ -1,22 +1,30 @@
-"use server"
+"use server";
 
 import {getAuthCookie} from "@/utils/getAuthCookie";
 import {User} from "@/actions/auth/login";
 import {meEndpoint} from "@/utils/endpoints";
 
-export async function getCurrentUser() : Promise<User> {
-    const token = await getAuthCookie();
+export async function getCurrentUser(): Promise<User | null> {
+    try {
+        const token = await getAuthCookie();
 
-    const response = await fetch(meEndpoint, {
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
+        if (!token) return null;
+
+        const response = await fetch(meEndpoint, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (!response.ok) {
+            console.error(`Failed to fetch current user. Status: ${response.status}`);
+            return null;
         }
-    });
 
-    if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        return await response.json();
+    } catch (error) {
+        console.error("Failed to fetch current user:", error);
+        return null;
     }
-
-    return response.json();
 }

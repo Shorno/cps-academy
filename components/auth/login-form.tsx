@@ -27,6 +27,7 @@ import {toast} from "sonner";
 import {useRouter} from "next/navigation";
 import {login} from "@/actions/auth/login";
 import {Loader} from "lucide-react";
+import {useQueryClient} from "@tanstack/react-query";
 
 
 export function LoginForm({
@@ -35,6 +36,7 @@ export function LoginForm({
                           }: React.ComponentProps<"div">) {
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
+    const queryClient = useQueryClient();
 
 
     const form = useForm<LoginFormValues>({
@@ -54,17 +56,12 @@ export function LoginForm({
                 if (response.success) {
                     toast.success(response.message);
 
-                    // Store JWT token and user data
-                    // Option 1: Cookies (recommended for SSR)
-                    // document.cookie = `auth-token=${response.data.jwt}; path=/; secure; samesite=strict`;
-
-                    // Option 2: Or use your auth context/store
-                    // setAuth({ token: response.data.jwt, user: response.data.user });
+                    queryClient.invalidateQueries({queryKey: ["currentUser"]});
 
                     form.reset();
-                    router.push("/courses"); // or wherever you want to redirect
+                    router.push("/courses");
                 } else {
-                    toast.error(response.message); // Direct Strapi error message
+                    toast.error(response.message);
                 }
             } catch (error) {
                 console.error('Login error:', error);
