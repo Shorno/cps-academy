@@ -57,12 +57,17 @@ export async function login(data: LoginFormValues): Promise<Response> {
         };
 
     } catch (error) {
-        if (error instanceof TypeError && error.message.includes('fetch')) {
-            return {
-                statusCode: 0,
-                message: "Network error. Please check your connection.",
-                success: false
-            };
+        if (error instanceof TypeError) {
+            if (error.message.includes('fetch')) {
+                return {
+                    statusCode: 0,
+                    message: "Unable to connect to the server. Please check your connection and try again.",
+                    success: false
+                };
+            }
+        }
+        if (error instanceof Error) {
+            console.error('Login error:', error.message);
         }
         return {
             statusCode: 500,
