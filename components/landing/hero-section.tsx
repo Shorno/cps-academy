@@ -13,7 +13,7 @@ export function HeroSection() {
                     <p className="mt-4 text-base leading-7 text-muted-foreground text-pretty sm:text-lg sm:leading-8 sm:mt-6 px-4 sm:px-0">
                         Join thousands of programmers who have transformed their careers with our expert-designed
                         courses. From
-                        competitive programming to system design, we'll prepare you for success at top tech companies.
+                        competitive programming to system design, we&#39;ll prepare you for success at top tech companies.
                     </p>
 
                     <div
