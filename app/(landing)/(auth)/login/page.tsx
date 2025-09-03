@@ -3,7 +3,8 @@ import {LoginForm} from "@/components/auth/login-form";
 import Link from "next/link";
 
 
-export default function LoginPage() {
+export default async function LoginPage({searchParams}: { searchParams: Promise<{ returnUrl?: string }> }) {
+    const {returnUrl} = await searchParams
     return (
         <div className="bg-muted flex min-h-[calc(100vh-65px)] flex-col items-center justify-center gap-6 p-6 md:p-10">
             <div className="flex w-full max-w-sm flex-col gap-6">
@@ -14,7 +15,7 @@ export default function LoginPage() {
                     </div>
                     CPS Academy
                 </Link>
-                <LoginForm/>
+                <LoginForm returnUrl={returnUrl}/>
             </div>
         </div>
     )

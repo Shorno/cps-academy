@@ -32,8 +32,9 @@ import {useQueryClient} from "@tanstack/react-query";
 
 export function LoginForm({
                               className,
+                              returnUrl,
                               ...props
-                          }: React.ComponentProps<"div">) {
+                          }: React.ComponentProps<"div"> & { returnUrl?: string }) {
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
     const queryClient = useQueryClient();
@@ -59,7 +60,7 @@ export function LoginForm({
                     queryClient.invalidateQueries({queryKey: ["currentUser"]});
 
                     form.reset();
-                    router.push("/courses");
+                    router.push(returnUrl || "/");
                 } else {
                     toast.error(response.message);
                 }
