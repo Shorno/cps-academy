@@ -12,8 +12,6 @@ interface CourseCardProps {
     className?: string
 }
 
-const strapiBaseUrl = process.env.NEXT_PUBLIC_STRAPI_URL;
-
 export function CourseCard({ course, className = '' }: CourseCardProps) {
 
     return (
@@ -23,7 +21,7 @@ export function CourseCard({ course, className = '' }: CourseCardProps) {
                     <Image
                         width={500}
                         height={300}
-                        src={strapiBaseUrl + course.thumbnail.url}
+                        src={course.thumbnail.url}
                         alt={course.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
