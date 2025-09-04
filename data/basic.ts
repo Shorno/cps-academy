@@ -25,6 +25,7 @@ export async function getCourses(): Promise<CourseResponse> {
     });
 
 
+    //redeploy
 
 
     const result = await fetch(`${baseUrl}/courses?${query}`, {
