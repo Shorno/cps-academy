@@ -25,6 +25,8 @@ export async function getCourses(): Promise<CourseResponse> {
     });
 
 
+
+
     const result = await fetch(`${baseUrl}/courses?${query}`, {
         method: "GET",
     })
