@@ -11,6 +11,11 @@ interface CourseCardProps {
     course: Course
     className?: string
 }
+const baseUrl =
+    process.env.NODE_ENV === "development"
+        ? "http://localhost:1337"
+        : "";
+
 
 export function CourseCard({ course, className = '' }: CourseCardProps) {
 
@@ -21,7 +26,7 @@ export function CourseCard({ course, className = '' }: CourseCardProps) {
                     <Image
                         width={500}
                         height={300}
-                        src={course.thumbnail.url}
+                        src={`${baseUrl}${course.thumbnail.url}`}
                         alt={course.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />

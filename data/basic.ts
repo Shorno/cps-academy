@@ -1,5 +1,7 @@
+import qs from "qs"
 import {client} from "@/lib/strapi";
 import {BlocksContent} from "@strapi/blocks-react-renderer";
+import {getAuthCookie} from "@/utils/getAuthCookie";
 
 
 interface Thumbnail {
@@ -39,6 +41,7 @@ export interface Course {
     description: BlocksContent;
     overview: BlocksContent;
     slug: string;
+    fee : number;
     durationWeeks: number;
     totalClasses: number;
     totalContests: number;
@@ -47,6 +50,10 @@ export interface Course {
     audience?: BlocksContent | null;
     modules: Module[];
     thumbnail?: Thumbnail | null;
+    highlights?: string[]
+    registrationStartDate : string
+    registrationEndDate: string,
+    classStartDate: string
     createdAt: string;
     updatedAt: string;
     publishedAt: string;
@@ -65,9 +72,26 @@ interface CourseResponse {
 }
 
 export async function getCourses(): Promise<CourseResponse> {
-    const result = await client.fetch("courses?populate=*", {
-            method: "GET"
+    const token = await getAuthCookie();
+
+    const query = qs.stringify({
+        populate: {
+            thumbnail: true,
+            modules: {
+                populate: ['topics']
+            }
         }
-    );
-    return result.json()
+    }, {
+        encodeValuesOnly: true,
+    });
+
+    const result = await client.fetch(`courses?${query}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': `Bearer ${token}`
+        }
+    });
+
+    return result.json();
 }
