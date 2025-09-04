@@ -17,6 +17,8 @@ export default async function CourseDetailsPage({params}: { params: Promise<{ sl
 
     const courseDetails = await getCourseBySlug(slug);
 
+    console.log(courseDetails)
+
     if (!courseDetails) {
         return <>Course not found</>
     }

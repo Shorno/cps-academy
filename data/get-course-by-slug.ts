@@ -1,12 +1,13 @@
-import {Course} from "@/data/basic";
-import {client} from "@/lib/strapi";
 import {getCurrentUser} from "@/data/user/get-current-user";
 import {redirect} from "next/navigation";
 import {headers} from "next/headers";
-import qs from "qs";
+import {Course} from "@/types/course";
+import {getAuthCookie} from "@/utils/getAuthCookie";
+import {baseUrl} from "@/utils/endpoints";
 
 export async function getCourseBySlug(slug: string): Promise<Course | null> {
     const user = await getCurrentUser();
+    const token = await getAuthCookie()
 
     if (!user) {
         const headersList = await headers();
@@ -16,29 +17,18 @@ export async function getCourseBySlug(slug: string): Promise<Course | null> {
 
     try {
 
-        const query = qs.stringify({
-            populate: {
-                thumbnail: true,
-                modules: {
-                    populate: ['topics']
-                }
-            }
-        }, {
-            encodeValuesOnly: true,
-        });
-
-
-        const result = await client.fetch(`courses?${query}`, {
+        const result = await fetch(`${baseUrl}/courses/${slug}`, {
             method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
         });
 
-        const response = await result.json();
+        const response = await result.json()
 
-        if (response.data && response.data.length > 0) {
-            return response.data[0];
-        }
+        return response.data
 
-        return null;
+
     } catch (error) {
         console.log(error);
         return null;

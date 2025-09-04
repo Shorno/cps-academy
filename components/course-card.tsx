@@ -4,8 +4,8 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {BlocksRenderer} from "@strapi/blocks-react-renderer";
-import {Course} from "@/data/basic";
 import Link from "next/link";
+import {Course} from "@/types/course";
 
 interface CourseCardProps {
     course: Course
@@ -102,7 +102,7 @@ export function CourseCard({ course, className = '' }: CourseCardProps) {
 
             <CardFooter className="flex items-center justify-between pt-4 border-t">
                 <Button size="lg" className={"w-full"} asChild>
-                    <Link href={`/courses/${course.slug}`} className="flex justify-center items-center gap-2">
+                    <Link href={`/courses/${course.documentId}`} className="flex justify-center items-center gap-2">
                         View details <ArrowRight/>
                     </Link>
                 </Button>
