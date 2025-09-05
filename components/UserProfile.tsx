@@ -21,6 +21,7 @@ export function UserProfile() {
     const {data: user, isLoading} = useUser()
     const queryClient = useQueryClient()
     const router = useRouter()
+    console.log(user)
 
     const handleSignOut = async () => {
         try {
@@ -77,13 +78,6 @@ export function UserProfile() {
                         </p>
                     </div>
                 </DropdownMenuLabel>
-                <DropdownMenuSeparator/>
-                <DropdownMenuItem asChild>
-                    <Link href="/profile">Profile</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                    <Link href="/settings">Settings</Link>
-                </DropdownMenuItem>
                 <DropdownMenuSeparator/>
                 <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer">
                     Sign out

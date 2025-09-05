@@ -1,4 +1,3 @@
-import qs from "qs"
 import {Course} from "@/types/course";
 import {baseUrl} from "@/utils/endpoints";
 
@@ -15,20 +14,8 @@ interface CourseResponse {
 }
 
 export async function getCourses(): Promise<CourseResponse> {
-    const query = qs.stringify({
-        populate: {
-            thumbnail: true,
-            modules: true
-        }
-    }, {
-        encodeValuesOnly: true,
-    });
 
-
-    //redeploy
-
-
-    const result = await fetch(`${baseUrl}/courses?${query}`, {
+    const result = await fetch(`${baseUrl}/courses`, {
         method: "GET",
     })
 
